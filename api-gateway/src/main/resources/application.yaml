@@ -1,0 +1,59 @@
+server:
+  port: 8888
+
+app:
+  api-prefix:  /api/v1
+
+spring:
+  application:
+    name: api-gateway
+
+  cloud:
+    gateway:
+      routes:
+        - id: identity_service
+          uri: http://localhost:8080
+          predicates:
+            - Path=${app.api-prefix}/identity/**
+          filters:
+            - StripPrefix=2
+        - id: profile_user_profile
+          uri: http://localhost:8081
+          predicates:
+            - Path=${app.api-prefix}/profile/user_profile/**
+          filters:
+            - StripPrefix=2
+
+        - id: profile_internal
+          uri: http://localhost:8081
+          predicates:
+            - Path=${app.api-prefix}/profile/internal/**
+          filters:
+            - StripPrefix=2
+
+        - id: post_service
+          uri: http://localhost:8083
+          predicates:
+            - Path=${app.api-prefix}/post/**
+          filters:
+            - StripPrefix=2
+
+        - id: file_service
+          uri: http://localhost:8084
+          predicates:
+            - Path=${app.api-prefix}/file/**
+          filters:
+            - StripPrefix=2
+        - id: chat_service
+          uri: http://localhost:8085
+          predicates:
+            - Path=${app.api-prefix}/chat/**
+          filters:
+            - StripPrefix=2
+
+        - id: product_service
+          uri: http://localhost:8087
+          predicates:
+            - Path=${app.api-prefix}/product/**
+          filters:
+            - StripPrefix=2
